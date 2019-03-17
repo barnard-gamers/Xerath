@@ -30,13 +30,7 @@ client.on('message', message => {
         return false;
       }
       if(body){
-        message.channel.send("Hey, the message you've just sent is too fucking **LONG**.\nI'm gonna make it shorter.")
-        .then(msg => {
-          msg.delete(4000);
-        });
-
         message.delete();
-
         message.channel.send(body.shortLink);
       }
     });
