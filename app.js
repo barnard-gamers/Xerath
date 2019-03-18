@@ -23,12 +23,13 @@ const options = {
 client.login(process.env.BOT_TOKEN);
 
 client.on('message', message => {
-  if(message.content.match("https://|http://") && message.content.length >= 40){
+  if(((message.content.trim().slice(0, 7) === "https:/" || message.content.trim().slice(0, 7) === "http://")) && message.content.length >= 40){
     options.json.dynamicLinkInfo.link = message.content.split(" ")[0];
     request.post(options, function(error, response, body){
       if(error){
         return false;
       }
+
       if(body){
         message.delete();
         message.channel.send(body.shortLink);
