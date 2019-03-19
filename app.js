@@ -33,7 +33,7 @@ client.on('message', message => {
       if(body && message.channel.guild !== undefined){
         message.delete();
         message.channel.send(body.shortLink);
-      }elseif(body && message.channel.guild === undefined){
+      }else if(body && message.channel.guild === undefined){
         message.channel.send(body.shortLink);
       }
     });
