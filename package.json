@@ -12,9 +12,10 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "dotenv": "^7.0.0",
-    "ffmpeg-binaries": "^4.0.0",
+    "encoding-japanese": "^1.0.29",
     "node-opus": "^0.3.1",
-    "opusscript": "0.0.6",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "riassumere": "^0.3.4"
   }
 }
