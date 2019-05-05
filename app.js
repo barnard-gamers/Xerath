@@ -23,26 +23,18 @@ client.on('message', async message => {
 async function replaceMessage(shortLink, msg, originalLink)  {
   const embedMessage = new Discord.RichEmbed();
 
-  msg.delete();
-
+  
   metameta(originalLink)
   .then(metadata => {
-
+    
     embedMessage
     .setAuthor(msg.author.username, msg.author.avatarURL)
-    .setDescription(metadata.description)
     .setURL(shortLink);
+    metadata.description ? embedMessage.setDescription(metadata.description) : null;
     metadata.image ? embedMessage.setThumbnail(metadata.image) : null;
-  })
-  .then(result => {
-
-    if (result) {
-      result.length < 60 ? embedMessage.setTitle(result) : embedMessage.setTitle(result.slice(0, 30) + "...");
-      msg.channel.send(embedMessage);
-    } else {
-      msg.channel.send(embedMessage);
-    }
-
+    metadata.title.length < 60 ? embedMessage.setTitle(metadata.title) : embedMessage.setTitle(metadata.title.slice(0, 30) + "...");
+    msg.channel.send(embedMessage);
+    msg.delete();
   })
   .catch(console.error);
 }
