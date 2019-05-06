@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const request = require('request-promise');
+const riassumere = require('riassumere').default;
 const client = new Discord.Client();
-const metameta = require('riassumere').default;
 require('dotenv').config();
 
 client.on('ready', () => {
@@ -10,23 +10,24 @@ client.on('ready', () => {
 
 client.on('message', async message => {
   const fullContents = message.content.trim().split(" ");
-  
+
   if (!isUrl(fullContents[0]) || fullContents[0].length <= 40 || message.author.bot) {
     return false;
   }
-  
+
   request(createRequestJson(fullContents[0]))
   .then(data => replaceMessage(data.shortLink, message, fullContents[0]))
   .catch(console.error);
 });
 
+client.login(process.env.BOT_TOKEN);
+client.on("error", console.error);
+
 async function replaceMessage(shortLink, msg, originalLink)  {
   const embedMessage = new Discord.RichEmbed();
 
-  
-  metameta(originalLink)
+  riassumere(originalLink)
   .then(metadata => {
-    
     embedMessage
     .setAuthor(msg.author.username, msg.author.avatarURL)
     .setURL(shortLink);
@@ -56,10 +57,7 @@ function createRequestJson (link) {
   };
 }
 
-function isUrl(s) {
+function isUrl(string) {
   var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-  return regexp.test(s);
+  return regexp.test(string);
 }
-
-client.login(process.env.BOT_TOKEN);
-client.on("error", console.error);
